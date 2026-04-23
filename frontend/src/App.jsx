@@ -55,8 +55,6 @@ const App = () => {
 
         <Route path='/friends' element={isAuthenticated && isOnboarded ? (
           <Layout showSidebar={true}>
-            {console.log("fried")
-            }
             <FriendsPage />
           </Layout>
         ) : (
