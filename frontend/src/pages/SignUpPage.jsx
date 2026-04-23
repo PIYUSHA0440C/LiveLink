@@ -54,7 +54,7 @@ const SignUpPage = () => {
                 <div>
                   <h2 className='text-xl font-semibold'> Create an Account</h2>
                   <p className='text-sm opacity-70'>
-                    Join LiveLink and start your collaboration & language learning journey adventure!
+                    Join LiveLink and Connect with people worldwide!
                   </p>
                 </div>
 
