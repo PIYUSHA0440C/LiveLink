@@ -25,7 +25,7 @@ const Navbar = () => {
           {/* Always show on chat page, otherwise hide on lg screens (where sidebar takes over) */}
           <div className={`${isChatPage ? "mr-auto" : "lg:hidden mr-auto"}`}>
             <Link to="/" className="flex items-center gap-2.5">
-              <ShipWheelIcon className="size-9 text-primary" />
+              {/* <ShipWheelIcon className="size-9 text-primary" /> */}
               <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-linear-to-r from-primary to-secondary tracking-wider">
                 LiveLink
               </span>
