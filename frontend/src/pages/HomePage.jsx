@@ -10,6 +10,7 @@ import { Link } from "react-router";
 import { CheckCircleIcon, MapPinIcon, UserPlusIcon, UsersIcon, SearchIcon } from "lucide-react";
 
 import { capitialize } from "../lib/utils.js";
+import { LANGUAGES } from "../constants";
 
 import FriendCard, { getLanguageFlag } from "../components/FriendCard";
 import NoFriendsFound from "../components/NoFriendsFound";
@@ -19,6 +20,8 @@ const HomePage = () => {
   const [outgoingRequestsIds, setOutgoingRequestsIds] = useState(new Set());
   const [searchFriends, setSearchFriends] = useState("");
   const [searchLearners, setSearchLearners] = useState("");
+  const [nativeFilter, setNativeFilter] = useState("");
+  const [learningFilter, setLearningFilter] = useState("");
 
   const { data: friends = [], isLoading: loadingFriends } = useQuery({
     queryKey: ["friends"],
@@ -49,13 +52,19 @@ const HomePage = () => {
     }
   }, [outgoingFriendReqs]);
 
-  const filteredFriends = friends.filter((friend) =>
-    friend?.fullName?.toLowerCase().includes(searchFriends.toLowerCase())
-  );
+  const filteredFriends = friends.filter((friend) => {
+    const matchesName = friend?.fullName?.toLowerCase().includes(searchFriends.toLowerCase());
+    const matchesNative = !nativeFilter || (friend?.nativeLanguage || "") === nativeFilter;
+    const matchesLearning = !learningFilter || (friend?.learningLanguage || "") === learningFilter;
+    return matchesName && matchesNative && matchesLearning;
+  });
 
-  const filteredLearners = recommendedUsers.filter((user) =>
-    user?.fullName?.toLowerCase().includes(searchLearners.toLowerCase())
-  );
+  const filteredLearners = recommendedUsers.filter((user) => {
+    const matchesName = user?.fullName?.toLowerCase().includes(searchLearners.toLowerCase());
+    const matchesNative = !nativeFilter || (user?.nativeLanguage || "") === nativeFilter;
+    const matchesLearning = !learningFilter || (user?.learningLanguage || "") === learningFilter;
+    return matchesName && matchesNative && matchesLearning;
+  });
 
   return (
     <div className="min-h-screen bg-base-100 p-4 sm:p-6 lg:p-8">
@@ -73,6 +82,35 @@ const HomePage = () => {
                 onChange={(e) => setSearchFriends(e.target.value)}
               />
             </div>
+
+            <div className="flex gap-2 items-center">
+              <select
+                className="select select-sm input-bordered"
+                value={nativeFilter}
+                onChange={(e) => setNativeFilter(e.target.value)}
+              >
+                <option value="">All natives</option>
+                {LANGUAGES.map((lang) => (
+                  <option key={`native-${lang}`} value={lang.toLowerCase()}>
+                    {lang}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                className="select select-sm input-bordered"
+                value={learningFilter}
+                onChange={(e) => setLearningFilter(e.target.value)}
+              >
+                <option value="">All learning</option>
+                {LANGUAGES.map((lang) => (
+                  <option key={`learn-${lang}`} value={lang.toLowerCase()}>
+                    {lang}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <Link to="/notifications" className="btn btn-outline btn-sm w-full sm:w-auto">
               <UsersIcon className="mr-2 size-4" />
               Friend Requests
@@ -154,7 +192,6 @@ const HomePage = () => {
                         </div>
                       </div>
 
-                      {/* Languages with flags */}
                       <div className="flex flex-wrap gap-1.5">
                         <span className="badge badge-secondary">
                           {getLanguageFlag(user.nativeLanguage)}
@@ -168,7 +205,6 @@ const HomePage = () => {
 
                       {user.bio && <p className="text-sm opacity-70">{user.bio}</p>}
 
-                      {/* Action button */}
                       <button
                         className={`btn w-full mt-2 ${
                           hasRequestBeenSent ? "btn-disabled" : "btn-primary"
