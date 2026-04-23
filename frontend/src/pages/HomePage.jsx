@@ -7,7 +7,7 @@ import {
   sendFriendRequest,
 } from "../lib/api";
 import { Link } from "react-router";
-import { CheckCircleIcon, MapPinIcon, UserPlusIcon, UsersIcon } from "lucide-react";
+import { CheckCircleIcon, MapPinIcon, UserPlusIcon, UsersIcon, SearchIcon } from "lucide-react";
 
 import { capitialize } from "../lib/utils.js";
 
@@ -17,6 +17,8 @@ import NoFriendsFound from "../components/NoFriendsFound";
 const HomePage = () => {
   const queryClient = useQueryClient();
   const [outgoingRequestsIds, setOutgoingRequestsIds] = useState(new Set());
+  const [searchFriends, setSearchFriends] = useState("");
+  const [searchLearners, setSearchLearners] = useState("");
 
   const { data: friends = [], isLoading: loadingFriends } = useQuery({
     queryKey: ["friends"],
@@ -39,35 +41,54 @@ const HomePage = () => {
   });
 
   useEffect(() => {
-    const outgoingIds = new Set();
-    if (outgoingFriendReqs && outgoingFriendReqs.length > 0) {
-      outgoingFriendReqs.forEach((req) => {
-        outgoingIds.add(req.recipient._id);
-      });
+    if (outgoingFriendReqs) {
+      const outgoingIds = new Set(
+        outgoingFriendReqs.map((req) => req.recipient?._id || req.recipient)
+      );
       setOutgoingRequestsIds(outgoingIds);
     }
   }, [outgoingFriendReqs]);
+
+  const filteredFriends = friends.filter((friend) =>
+    friend?.fullName?.toLowerCase().includes(searchFriends.toLowerCase())
+  );
+
+  const filteredLearners = recommendedUsers.filter((user) =>
+    user?.fullName?.toLowerCase().includes(searchLearners.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-base-100 p-4 sm:p-6 lg:p-8">
       <div className="container mx-auto space-y-10">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Your Friends</h2>
-          <Link to="/notifications" className="btn btn-outline btn-sm">
-            <UsersIcon className="mr-2 size-4" />
-            Friend Requests
-          </Link>
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+            <div className="relative w-full sm:w-auto">
+              <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-base-content opacity-50" />
+              <input
+                type="text"
+                placeholder="Search friends..."
+                className="input input-sm input-bordered w-full sm:w-48 pl-9"
+                value={searchFriends}
+                onChange={(e) => setSearchFriends(e.target.value)}
+              />
+            </div>
+            <Link to="/notifications" className="btn btn-outline btn-sm w-full sm:w-auto">
+              <UsersIcon className="mr-2 size-4" />
+              Friend Requests
+            </Link>
+          </div>
         </div>
 
         {loadingFriends ? (
           <div className="flex justify-center py-12">
             <span className="loading loading-spinner loading-lg" />
           </div>
-        ) : friends.length === 0 ? (
+        ) : filteredFriends.length === 0 ? (
           <NoFriendsFound />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {friends.map((friend) => (
+            {filteredFriends.map((friend) => (
               <FriendCard key={friend._id} friend={friend} />
             ))}
           </div>
@@ -82,6 +103,16 @@ const HomePage = () => {
                   Discover perfect language exchange partners based on your profile
                 </p>
               </div>
+              <div className="relative w-full sm:w-auto">
+                <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-base-content opacity-50" />
+                <input
+                  type="text"
+                  placeholder="Search learners..."
+                  className="input input-sm input-bordered w-full sm:w-48 pl-9"
+                  value={searchLearners}
+                  onChange={(e) => setSearchLearners(e.target.value)}
+                />
+              </div>
             </div>
           </div>
 
@@ -89,7 +120,7 @@ const HomePage = () => {
             <div className="flex justify-center py-12">
               <span className="loading loading-spinner loading-lg" />
             </div>
-          ) : recommendedUsers.length === 0 ? (
+          ) : filteredLearners.length === 0 ? (
             <div className="card bg-base-200 p-6 text-center">
               <h3 className="font-semibold text-lg mb-2">No recommendations available</h3>
               <p className="text-base-content opacity-70">
@@ -98,7 +129,7 @@ const HomePage = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {recommendedUsers.map((user) => {
+              {filteredLearners.map((user) => {
                 const hasRequestBeenSent = outgoingRequestsIds.has(user._id);
 
                 return (
@@ -139,8 +170,9 @@ const HomePage = () => {
 
                       {/* Action button */}
                       <button
-                        className={`btn w-full mt-2 ${hasRequestBeenSent ? "btn-disabled" : "btn-primary"
-                          } `}
+                        className={`btn w-full mt-2 ${
+                          hasRequestBeenSent ? "btn-disabled" : "btn-primary"
+                        }`}
                         onClick={() => sendRequestMutation(user._id)}
                         disabled={hasRequestBeenSent || (isPending && pendingUserId === user._id)}
                       >
