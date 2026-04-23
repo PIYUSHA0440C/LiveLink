@@ -9,6 +9,7 @@ import LoginPage from './pages/LoginPage'
 import NotificationsPage from './pages/NotificationsPage'
 import CallPage from './pages/CallPage'
 import ChatPage from './pages/ChatPage'
+import FriendsPage from './pages/FriendsPage'
 
 import PageLoader from './components/PageLoader'
 
@@ -52,11 +53,21 @@ const App = () => {
           <Navigate to={isAuthenticated ? "/onboarding" : "/login"} />
         )} />
 
+        <Route path='/friends' element={isAuthenticated && isOnboarded ? (
+          <Layout showSidebar={true}>
+            {console.log("fried")
+            }
+            <FriendsPage />
+          </Layout>
+        ) : (
+          <Navigate to={isAuthenticated ? "/onboarding" : "/login"} />
+        )} />
+
         <Route path='/call/:id' element={isAuthenticated && isOnboarded ? (
-              <CallPage />
-            ) : (
-              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
-            )} />
+          <CallPage />
+        ) : (
+          <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+        )} />
 
         <Route path='/chat/:id' element={
           isAuthenticated && isOnboarded ? (
