@@ -17,6 +17,7 @@ import PageLoader from './components/PageLoader'
 import useAuthUser from './hooks/useAuthUser'
 import Layout from './components/Layout'
 import { useThemeStore } from './store/useThemeStore'
+import GlobalCursor from './components/GlobalCursor'
 
 
 const App = () => {
@@ -31,7 +32,8 @@ const App = () => {
 
 
   return (
-    <div className='h-screen' data-theme={theme}>
+    <div className='h-screen lg:cursor-none' data-theme={theme}>
+      <GlobalCursor />
       <Routes>
 
         <Route path='/' element={isAuthenticated ? (
