@@ -1,5 +1,13 @@
 # 🌐 LiveLink - Full-Stack Language Exchange and Communication Platform
 
+<p align="center">
+  <a href="https://livelink-fullstack.onrender.com/">
+    <img src="https://img.shields.io/badge/Demo-Live_on_Render-blueviolet?style=for-the-badge&logo=render" alt="Live Demo" />
+  </a>
+  <br />
+  <strong>Live Link:</strong> <a href="https://livelink-fullstack.onrender.com/">https://livelink-fullstack.onrender.com/</a>
+</p>
+
 LiveLink is a premium full-stack web application designed for language exchange and real-time communication. It provides profile-based partner discovery, native & learning language customization, friend request flows, and real-time chat and WebRTC video calling. 
 
 The application utilizes a decoupled client-server architecture, powered by a React client and an Express/Node.js REST API, with MongoDB for persistence and GetStream for low-latency messaging and video services.
@@ -7,6 +15,7 @@ The application utilizes a decoupled client-server architecture, powered by a Re
 ---
 
 ## 🚀 Quick Links
+*   **🔗 [Live Hosted Demo](https://livelink-fullstack.onrender.com/)**
 *   [Key Features](#-key-features)
 *   [Tech Stack](#-tech-stack)
 *   [Architecture Diagram](#-architecture-diagram)
