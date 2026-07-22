@@ -58,7 +58,7 @@ export async function signup(req, res) {
             maxAge: 7 * 24 * 60 * 60 * 1000,
             httpOnly: true, //prevent XSS attacks
             sameSite: "none", // CSRF protection
-            secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+            secure: true, // Force secure for cross-origin
         })
 
         res.status(201).json({
@@ -92,7 +92,7 @@ export async function login(req, res) {
             maxAge: 7 * 24 * 60 * 60 * 1000,
             httpOnly: true, //prevent XSS attacks
             sameSite: "none", // CSRF protection
-            secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+            secure: true, // Force secure for cross-origin
         })
 
         res.status(200).json({
