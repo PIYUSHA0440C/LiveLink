@@ -16,8 +16,10 @@ const PORT = process.env.PORT;
 
 const __dirname = path.resolve();
 
+const allowedOrigins = [process.env.CLIENT_URL, process.env.RENDER_EXTERNAL_URL].filter(Boolean);
+
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: allowedOrigins,
     credentials: true,
 }));
 app.use(express.json());
