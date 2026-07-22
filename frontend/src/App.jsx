@@ -22,13 +22,13 @@ import GlobalCursor from './components/GlobalCursor'
 
 const App = () => {
 
-  const { isLoading, authUser } = useAuthUser();
+  const { isLoading, authUser, isConnecting } = useAuthUser();
   const { theme } = useThemeStore();
 
   const isAuthenticated = Boolean(authUser);
   const isOnboarded = authUser?.isOnboarded;
 
-  if (isLoading) return <PageLoader />
+  if (isLoading) return <PageLoader isConnecting={isConnecting} />
 
 
   return (

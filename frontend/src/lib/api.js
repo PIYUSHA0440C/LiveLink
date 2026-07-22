@@ -17,13 +17,15 @@ export const logout = async () => {
 
 export const getAuthUser = async () => {
     try {
-    const res = await axiosInstance.get("/auth/me");
-    return res.data;
+        const res = await axiosInstance.get("/auth/me");
+        return res.data;
     } catch (error) {
+        if (error.response?.status >= 500 || error.code === 'ERR_NETWORK') {
+            throw error;
+        }
         console.log("Error in getAuthUser API call:", error);
         return null;
     }
-        
 }
 
 export const completeOnboarding = async (userData) => {
