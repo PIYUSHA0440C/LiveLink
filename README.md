@@ -1,11 +1,15 @@
 # 🌐 LiveLink - Language Exchange and Communication Platform
 
 <p align="center">
+  <a href="https://livelink-xi.vercel.app/">
+    <img src="https://img.shields.io/badge/Primary_Demo-Live_on_Vercel-black?style=for-the-badge&logo=vercel" alt="Live Demo on Vercel" />
+  </a>
   <a href="https://livelink-fullstack.onrender.com/">
-    <img src="https://img.shields.io/badge/Demo-Live_on_Render-blueviolet?style=for-the-badge&logo=render" alt="Live Demo" />
+    <img src="https://img.shields.io/badge/Alt_Demo-Live_on_Render-blueviolet?style=for-the-badge&logo=render" alt="Live Demo on Render" />
   </a>
   <br />
-  <strong>Live Link:</strong> <a href="https://livelink-fullstack.onrender.com/">https://livelink-fullstack.onrender.com/</a>
+  <strong>Primary Demo (Vercel Frontend + Render API):</strong> <a href="https://livelink-xi.vercel.app/">https://livelink-xi.vercel.app/</a><br />
+  <strong>Alternative Demo (Render Monorepo):</strong> <a href="https://livelink-fullstack.onrender.com/">https://livelink-fullstack.onrender.com/</a>
 </p>
 
 LiveLink is a full-stack web application designed for language exchange and real-time communication. It provides profile-based partner discovery, native & learning language customization, friend request flows, and real-time chat and WebRTC video calling. 
@@ -15,7 +19,7 @@ The application utilizes a decoupled client-server architecture, powered by a Re
 ---
 
 ## 🚀 Quick Links
-*   **🔗 [Live Hosted Demo](https://livelink-fullstack.onrender.com/)**
+*   **🔗 [Live Hosted Demo](https://livelink-xi.vercel.app/)**
 *   [Key Features](#-key-features)
 *   [Tech Stack](#-tech-stack)
 *   [Architecture Diagram](#-architecture-diagram)
