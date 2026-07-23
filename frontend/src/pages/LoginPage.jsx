@@ -24,7 +24,7 @@ const LoginPage = () => {
   //   ["authUser"] })
   // });
 
-  const {isPending, error, loginMutation} = useLogin()
+  const {isPending, error, loginMutation, isConnecting} = useLogin()
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -97,7 +97,7 @@ const LoginPage = () => {
                     {isPending ? (
                       <>
                         <span className="loading loading-spinner loading-xs"></span>
-                        Signing in...
+                        {isConnecting ? "Connecting to server..." : "Signing in..."}
                       </>
                     ) : (
                       "Sign In"

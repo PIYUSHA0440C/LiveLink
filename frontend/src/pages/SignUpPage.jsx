@@ -19,7 +19,7 @@ const SignUpPage = () => {
   //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
   // })
 
-  const { isPending, error, signupMutation } = useSignup();
+  const { isPending, error, signupMutation, isConnecting } = useSignup();
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -114,11 +114,11 @@ const SignUpPage = () => {
                 </div>
 
                 {/* Button */}
-                <button className='btn btn-primary w-full' type='submit'>
+                <button className='btn btn-primary w-full' type='submit' disabled={isPending}>
                   {isPending ? (
                     <>
                       <span className='loading loading-spinner loading-xs'></span>
-                      Loading...
+                      {isConnecting ? "Connecting to server..." : "Creating account..."}
                     </>
                   ) : (
                     "Create Account"

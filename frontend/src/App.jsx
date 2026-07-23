@@ -28,9 +28,6 @@ const App = () => {
   const isAuthenticated = Boolean(authUser);
   const isOnboarded = authUser?.isOnboarded;
 
-  if (isLoading) return <PageLoader isConnecting={isConnecting} />
-
-
   return (
     <div className='h-screen lg:cursor-none' data-theme={theme}>
       <GlobalCursor />
@@ -52,7 +49,9 @@ const App = () => {
 
         <Route path='/login' element={!isAuthenticated ? <LoginPage /> : <Navigate to={isOnboarded ? '/' : "/onboarding"} />} />
 
-        <Route path='/notifications' element={isAuthenticated && isOnboarded ? (
+        <Route path='/notifications' element={isLoading ? (
+          <PageLoader isConnecting={isConnecting} />
+        ) : isAuthenticated && isOnboarded ? (
           <Layout showSidebar={true}>
             <NotificationsPage />
           </Layout>
@@ -60,7 +59,9 @@ const App = () => {
           <Navigate to={isAuthenticated ? "/onboarding" : "/login"} />
         )} />
 
-        <Route path='/friends' element={isAuthenticated && isOnboarded ? (
+        <Route path='/friends' element={isLoading ? (
+          <PageLoader isConnecting={isConnecting} />
+        ) : isAuthenticated && isOnboarded ? (
           <Layout showSidebar={true}>
             <FriendsPage />
           </Layout>
@@ -68,13 +69,17 @@ const App = () => {
           <Navigate to={isAuthenticated ? "/onboarding" : "/login"} />
         )} />
 
-        <Route path='/call/:id' element={isAuthenticated && isOnboarded ? (
+        <Route path='/call/:id' element={isLoading ? (
+          <PageLoader isConnecting={isConnecting} />
+        ) : isAuthenticated && isOnboarded ? (
           <CallPage />
         ) : (
           <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
         )} />
 
-        <Route path='/chat/:id' element={
+        <Route path='/chat/:id' element={isLoading ? (
+          <PageLoader isConnecting={isConnecting} />
+        ) :
           isAuthenticated && isOnboarded ? (
             <Layout showSidebar={false}>
               <ChatPage />
@@ -84,7 +89,9 @@ const App = () => {
           )
         } />
 
-        <Route path='/onboarding' element={isAuthenticated ? (
+        <Route path='/onboarding' element={isLoading ? (
+          <PageLoader isConnecting={isConnecting} />
+        ) : isAuthenticated ? (
           !isOnboarded ? (
             <OnboardingPage />
           ) : (
